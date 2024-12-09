@@ -31,7 +31,7 @@ public class IA : MonoBehaviour
 
     // Update is called once per frame
 
-    float searchTimer:
+    float searchTimer;
     float searchDuration = 15;
     float searchRadius = 10;
 
@@ -59,7 +59,7 @@ public class IA : MonoBehaviour
                 Chase();
                 break;
             case EnemyState.Searching:
-                Searching();
+                Search();
                 break;
         }
 
@@ -107,12 +107,13 @@ public class IA : MonoBehaviour
             else
             {
                 currentState = EnemyState.Patrolling;
+                searchTimer = 0;
             }
         }
 
         bool RandomSearchPoints(Vector3 center, float radius, out Vector3 point)
         {
-            Vector3 randomPoint = center + Random.insideUnitCircle * radius;
+            Vector3 randomPoint = center * Random.insideUnitCircle * radius;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 0.1f, NavMesh.AllAreas))
             {
